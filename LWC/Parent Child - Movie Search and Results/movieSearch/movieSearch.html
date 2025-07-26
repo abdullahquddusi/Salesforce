@@ -1,0 +1,70 @@
+<template>
+    <!-- Filter Section -->
+    <div class="filterstyle">
+        <lightning-layout class="slds-grid slds-grid_align-center">
+            <lightning-layout-item padding="around-small" size="3">
+                <lightning-combobox 
+                    name="type" 
+                    label="Type" 
+                    value={selectedType}
+                    placeholder="Select Type" 
+                    options={typeoptions} 
+                    onchange={handlechange}>
+                </lightning-combobox>
+            </lightning-layout-item>
+
+            <lightning-layout-item padding="around-small" size="7">
+                <lightning-input 
+                    name="search"
+                    label="Enter Search Item"
+                    placeholder="Search for Movie/Series"
+                    is-loading={loading}
+                    type="search"
+                    onchange={handlechange}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item padding="around-small" size="2">
+                <lightning-input 
+                    type="number" 
+                    name="pageno" 
+                    label="Page"
+                    value={selectedPageNo}
+                    field-level-help="Range 1-100"
+                    min="1"
+                    max="100"
+                    step="1"
+                    message-when-range-underflow="Minimum value is 1"
+                    message-when-range-overflow="Maximum value is 100"
+                    onchange={handlechange}
+                    >
+                </lightning-input>
+                
+
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+
+    <!-- Detail Section -->
+    <div>
+        <lightning-layout horizontal-align="center" multiple-rows="true">
+        
+        <template if:false={selectedSearch}>
+            <div class="slds-m-around_medium">
+                <p>No results found.</p>
+            </div>
+        </template>
+        <template if:true={selectedSearch}>    
+            <template for:each={searchResult} for:item="movie">
+                <lightning-layout-item 
+                    size="3" 
+                    padding="around-small" 
+                    key={movie.imdbID}>
+                    
+                <c-movie-tile movie={movie}></c-movie-tile>
+                </lightning-layout-item>
+            </template>
+        </template>
+        </lightning-layout>
+    </div>
+</template>
